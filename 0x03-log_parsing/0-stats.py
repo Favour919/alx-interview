@@ -2,6 +2,8 @@
 '''A script for parsing HTTP request logs.
 '''
 import re
+
+
 def extract_input(input_line):
     '''Extracts sections of a line of an HTTP request log.
     '''
@@ -24,6 +26,8 @@ def extract_input(input_line):
         info['status_code'] = status_code
         info['file_size'] = file_size
     return info
+
+
 def print_statistics(total_file_size, status_codes_stats):
     '''Prints the accumulated statistics of the HTTP request log.
     '''
@@ -33,10 +37,13 @@ def print_statistics(total_file_size, status_codes_stats):
         if num > 0:
             print('{:s}: {:d}'.format(status_code, num), flush=True)
 
+
 def update_metrics(line, total_file_size, status_codes_stats):
     '''Updates the metrics from a given HTTP request log.
+
     Args:
         line (str): The line of input from which to retrieve the metrics.
+
     Returns:
         int: The new total file size.
     '''
@@ -45,6 +52,8 @@ def update_metrics(line, total_file_size, status_codes_stats):
     if status_code in status_codes_stats.keys():
         status_codes_stats[status_code] += 1
     return total_file_size + line_info['file_size']
+
+
 def run():
     '''Starts the log parser.
     '''
@@ -73,5 +82,7 @@ def run():
                 print_statistics(total_file_size, status_codes_stats)
     except (KeyboardInterrupt, EOFError):
         print_statistics(total_file_size, status_codes_stats)
+
+
 if __name__ == '__main__':
     run()
